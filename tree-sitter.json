@@ -1,20 +1,17 @@
 {
   "grammars": [
     {
-      "name": "bash",
-      "camelcase": "Bash",
-      "scope": "source.bash",
+      "name": "zsh",
+      "camelcase": "Zsh",
+      "scope": "source.zsh",
       "path": ".",
       "file-types": [
-        "sh",
-        "bash",
-        ".bashrc",
-        ".bash_profile",
-        "ebuild",
-        "eclass"
+        "zsh",
+        ".zshrc",
+        ".zprofile"
       ],
-      "injection-regex": "^(shell|bash|sh)$",
-      "first-line-regex": "^#!.*\\b(sh|bash|dash)\\b.*$"
+      "injection-regex": "^zsh$",
+      "first-line-regex": "^#!.*\\b(zsh)\\b.*$"
     }
   ],
   "metadata": {

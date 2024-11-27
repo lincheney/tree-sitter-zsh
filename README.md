@@ -19,6 +19,8 @@
 * [ ] `$path[2]`
 * [ ] `{ ... }` does not require semicolon
 * [ ] `"${__stderr//'/'\''}"`
+* [ ] `${${words[@]:-1}[(r)-p]}`
+* [ ] mathematical functions `(( int(height / 3) ))`
 
 
 ---

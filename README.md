@@ -1,9 +1,9 @@
 # tree-sitter-bash
 
 ## TODO
-* [ ] ANONYMOUS FUNCTIONS
-* [ ] PARAMETER EXPANSION
-* [ ] Parameter Expansion Flags
+* [x] ANONYMOUS FUNCTIONS
+* [x] PARAMETER EXPANSION
+* [x] Parameter Expansion Flags
 * [ ] ```Any character, or the matching pairs `(...)', `{...}', `[...]', or `<...>', may be used in place of a colon as delimiters```
 * [ ] `case word in [ [(] pattern [ | pattern ] ... ) list (;;|;&|;|) ] ... esac`
 * [ ] `repeat word do list done`

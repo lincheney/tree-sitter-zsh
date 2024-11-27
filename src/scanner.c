@@ -1184,28 +1184,28 @@ brace_start:
     return false;
 }
 
-void *tree_sitter_bash_external_scanner_create() {
+void *tree_sitter_zsh_external_scanner_create() {
     Scanner *scanner = calloc(1, sizeof(Scanner));
     array_init(&scanner->heredocs);
     return scanner;
 }
 
-bool tree_sitter_bash_external_scanner_scan(void *payload, TSLexer *lexer, const bool *valid_symbols) {
+bool tree_sitter_zsh_external_scanner_scan(void *payload, TSLexer *lexer, const bool *valid_symbols) {
     Scanner *scanner = (Scanner *)payload;
     return scan(scanner, lexer, valid_symbols);
 }
 
-unsigned tree_sitter_bash_external_scanner_serialize(void *payload, char *state) {
+unsigned tree_sitter_zsh_external_scanner_serialize(void *payload, char *state) {
     Scanner *scanner = (Scanner *)payload;
     return serialize(scanner, state);
 }
 
-void tree_sitter_bash_external_scanner_deserialize(void *payload, const char *state, unsigned length) {
+void tree_sitter_zsh_external_scanner_deserialize(void *payload, const char *state, unsigned length) {
     Scanner *scanner = (Scanner *)payload;
     deserialize(scanner, state, length);
 }
 
-void tree_sitter_bash_external_scanner_destroy(void *payload) {
+void tree_sitter_zsh_external_scanner_destroy(void *payload) {
     Scanner *scanner = (Scanner *)payload;
     for (size_t i = 0; i < scanner->heredocs.size; i++) {
         Heredoc *heredoc = array_get(&scanner->heredocs, i);

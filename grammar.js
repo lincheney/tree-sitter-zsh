@@ -386,6 +386,25 @@ module.exports = grammar({
       field('redirect', optional($._redirect)),
     )),
 
+    anonymous_function: $ => prec.right(seq(
+      choice(
+        seq(
+          'function',
+          optional(seq('(', ')')),
+        ),
+        '()',
+      ),
+      field(
+        'body',
+        choice(
+          $.compound_statement,
+          $.subshell,
+          $.test_command,
+          $.if_statement,
+        ),
+      ),
+    )),
+
     compound_statement: $ => seq(
       '{',
       optional($._terminated_statement),
@@ -465,11 +484,16 @@ module.exports = grammar({
     )),
 
     command: $ => prec.left(seq(
-      repeat(choice(
-        $.variable_assignment,
-        field('redirect', $._redirect),
-      )),
-      field('name', $.command_name),
+      choice(
+        seq(
+          repeat(choice(
+            $.variable_assignment,
+            field('redirect', $._redirect),
+          )),
+          field('name', $.command_name),
+        ),
+        $.anonymous_function,
+      ),
       choice(
         repeat(choice(
           field('argument', $._literal),

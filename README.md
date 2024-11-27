@@ -1,5 +1,28 @@
 # tree-sitter-bash
 
+## TODO
+* [ ] ANONYMOUS FUNCTIONS
+* [ ] PARAMETER EXPANSION
+* [ ] Parameter Expansion Flags
+* [ ] ```Any character, or the matching pairs `(...)', `{...}', `[...]', or `<...>', may be used in place of a colon as delimiters```
+* [ ] `case word in [ [(] pattern [ | pattern ] ... ) list (;;|;&|;|) ] ... esac`
+* [ ] `repeat word do list done`
+* [ ] `{ try-list } always { always-list }`
+* [ ] `function [ -T ] word ... [ () ] [ term ] { list }`
+* [ ] ALTERNATE FORMS FOR COMPLEX COMMANDS
+* [ ] `>| word`, `>! word`, `>>| word`, `>>! word` `>&| word`, `>&! word`, `&>| word`, `&>! word`, `>>&| word`, `>>&! word`, `&>>| word`, `&>>! word`,
+* [ ] `^^` logical XOR, `^^=`
+* [ ] `=(...)`
+* [ ] `${var[1][2]}`, `${var[2,4][2]}`
+* [ ] Glob Operators
+* [ ] Subscript Flags
+* [ ] `$path[2]`
+* [ ] `{ ... }` does not require semicolon
+* [ ] `"${__stderr//'/'\''}"`
+
+
+---
+
 [![CI][ci]](https://github.com/tree-sitter/tree-sitter-bash/actions/workflows/ci.yml)
 [![discord][discord]](https://discord.gg/w7nTvsVJhm)
 [![matrix][matrix]](https://matrix.to/#/#tree-sitter-chat:matrix.org)

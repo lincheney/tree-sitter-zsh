@@ -890,7 +890,7 @@ module.exports = grammar({
       seq(/-?(0x)?[0-9]+#/, choice($.expansion, $.command_substitution)),
     ),
 
-    simple_expansion: $ => seq(
+    simple_expansion: $ => prec.right(seq(
       '$',
       choice(
         $._simple_variable_name,
@@ -900,7 +900,15 @@ module.exports = grammar({
         alias('!', $.special_variable_name),
         alias('#', $.special_variable_name),
       ),
-    ),
+      repeat(seq(
+        optional($._concat),
+        '[',
+        field('index', choice($._literal, $.binary_expression, $.unary_expression, $.parenthesized_expression)),
+        optional($._concat),
+        ']',
+        optional($._concat),
+      )),
+    )),
 
     string_expansion: $ => seq('$', $.string),
 

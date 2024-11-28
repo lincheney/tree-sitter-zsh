@@ -155,6 +155,7 @@ module.exports = grammar({
       $.negated_command,
       $.for_statement,
       $.c_style_for_statement,
+      $.foreach_statement,
       $.while_statement,
       $.if_statement,
       $.case_statement,
@@ -176,6 +177,7 @@ module.exports = grammar({
       $.negated_command,
       $.for_statement,
       $.c_style_for_statement,
+      $.foreach_statement,
       $.while_statement,
       $.if_statement,
       $.case_statement,
@@ -296,6 +298,15 @@ module.exports = grammar({
       ')',
     ),
     _c_word: $ => alias(/[a-zA-Z_][a-zA-Z0-9_]*/, $.word),
+
+    foreach_statement: $ => seq(
+      'foreach',
+      field('variable', $._simple_variable_name),
+      $.array,
+      field('body', optional(seq($._statement, repeat(seq($._terminator, $._statement))))),
+      $._terminator,
+      'end',
+    ),
 
     while_statement: $ => choice(
       seq(

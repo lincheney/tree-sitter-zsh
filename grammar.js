@@ -774,6 +774,7 @@ module.exports = grammar({
       alias($._arithmetic_binary_expression, $.binary_expression),
       alias($._arithmetic_postfix_expression, $.postfix_expression),
       alias($._arithmetic_parenthesized_expression, $.parenthesized_expression),
+      alias($._arithmetic_function_expression, $.function_expression),
       $.command_substitution,
     )),
 
@@ -846,6 +847,13 @@ module.exports = grammar({
 
     _arithmetic_parenthesized_expression: $ => seq(
       '(',
+      $._arithmetic_expression,
+      ')',
+    ),
+
+    _arithmetic_function_expression: $ => seq(
+      $._simple_variable_name,
+      token.immediate('('),
       $._arithmetic_expression,
       ')',
     ),

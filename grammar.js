@@ -297,15 +297,18 @@ module.exports = grammar({
     ),
     _c_word: $ => alias(/[a-zA-Z_][a-zA-Z0-9_]*/, $.word),
 
-    while_statement: $ => seq(
-      choice(
-        seq(
-          choice('while', 'until'),
-          field('condition', $._terminated_statement),
+    while_statement: $ => choice(
+      seq(
+        choice(
+          seq(
+            choice('while', 'until'),
+            field('condition', $._terminated_statement),
+          ),
+          'repeat',
         ),
-        'repeat',
+        field('body', $.do_group),
       ),
-      field('body', $.do_group),
+      $._alternate_while_statement,
     ),
 
     do_group: $ => seq(
@@ -314,14 +317,17 @@ module.exports = grammar({
       'done',
     ),
 
-    if_statement: $ => seq(
-      'if',
-      field('condition', $._terminated_statement),
-      'then',
-      optional($._terminated_statement),
-      repeat($.elif_clause),
-      optional($.else_clause),
-      'fi',
+    if_statement: $ => choice(
+      seq(
+        'if',
+        field('condition', $._terminated_statement),
+        'then',
+        optional($._terminated_statement),
+        repeat($.elif_clause),
+        optional($.else_clause),
+        'fi',
+      ),
+      $._alternate_if_statement,
     ),
 
     elif_clause: $ => seq(
@@ -336,17 +342,20 @@ module.exports = grammar({
       optional($._terminated_statement),
     ),
 
-    case_statement: $ => seq(
-      'case',
-      field('value', $._literal),
-      optional($._terminator),
-      'in',
-      optional($._terminator),
-      optional(seq(
-        repeat($.case_item),
-        alias($.last_case_item, $.case_item),
-      )),
-      'esac',
+    case_statement: $ => choice(
+      seq(
+        'case',
+        field('value', $._literal),
+        optional($._terminator),
+        'in',
+        optional($._terminator),
+        optional(seq(
+          repeat($.case_item),
+          alias($.last_case_item, $.case_item),
+        )),
+        'esac',
+      ),
+      $._alternate_case_statement,
     ),
 
     case_item: $ => seq(
@@ -372,6 +381,45 @@ module.exports = grammar({
       ')',
       optional($._statements),
       optional(prec(1, ';;')),
+    ),
+
+    _alternate_if_statement: $ => seq(
+      'if',
+      optional('!'),
+      field('condition', $.test_command),
+      $.compound_statement,
+      repeat(alias($._alternate_elif_clause, $.elif_clause)),
+      optional(alias($._alternate_else_clause, $.else_clause)),
+    ),
+
+    _alternate_elif_clause: $ => seq(
+      'elif',
+      optional('!'),
+      field('condition', $.test_command),
+      $.compound_statement,
+    ),
+
+    _alternate_else_clause: $ => seq(
+      'else',
+      $.compound_statement,
+    ),
+
+    _alternate_while_statement: $ => seq(
+      choice('while', 'until'),
+      optional('!'),
+      field('condition', $.test_command),
+      $.compound_statement,
+    ),
+
+    _alternate_case_statement: $ => seq(
+      'case',
+      field('value', $._literal),
+      '{',
+      optional(seq(
+        repeat($.case_item),
+        alias($.last_case_item, $.case_item),
+      )),
+      '}',
     ),
 
     function_definition: $ => prec.right(seq(

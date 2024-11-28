@@ -4,23 +4,26 @@
 * [x] ANONYMOUS FUNCTIONS
 * [x] PARAMETER EXPANSION
 * [x] Parameter Expansion Flags
-* [ ] ```Any character, or the matching pairs `(...)', `{...}', `[...]', or `<...>', may be used in place of a colon as delimiters```
-* [ ] `case word in [ [(] pattern [ | pattern ] ... ) list (;;|;&|;|) ] ... esac`
-* [ ] `repeat word do list done`
+* [x] ```Any character, or the matching pairs `(...)', `{...}', `[...]', or `<...>', may be used in place of a colon as delimiters```
+* [x] `case word in [ [(] pattern [ | pattern ] ... ) list (;;|;&|;|) ] ... esac`
+* [x] `repeat word do list done`
 * [ ] `{ try-list } always { always-list }`
-* [ ] `function [ -T ] word ... [ () ] [ term ] { list }`
+* [x] `function [ -T ] word ... [ () ] [ term ] { list }`
 * [ ] ALTERNATE FORMS FOR COMPLEX COMMANDS
-* [ ] `>| word`, `>! word`, `>>| word`, `>>! word` `>&| word`, `>&! word`, `&>| word`, `&>! word`, `>>&| word`, `>>&! word`, `&>>| word`, `&>>! word`,
-* [ ] `^^` logical XOR, `^^=`
-* [ ] `=(...)`
-* [ ] `${var[1][2]}`, `${var[2,4][2]}`
+* [x] `>| word`, `>! word`, `>>| word`, `>>! word` `>&| word`, `>&! word`, `&>| word`, `&>! word`, `>>&| word`, `>>&! word`, `&>>| word`, `&>>! word`,
+* [x] `^^` logical XOR, `^^=`, `||=`, `&&=`
+* [x] `=(...)`
+* [x] `${var[1][2]}`
+* [ ] `${var[2,4][2]}`
 * [ ] Glob Operators
 * [ ] Subscript Flags
-* [ ] `$path[2]`
-* [ ] `{ ... }` does not require semicolon
+* [x] `$path[2]`
+* [x] `{ ... }` does not require semicolon
 * [ ] `"${__stderr//'/'\''}"`
-* [ ] `${${words[@]:-1}[(r)-p]}`
+* [x] `${${words[@]:-1}[(r)-p]}`
 * [ ] mathematical functions `(( int(height / 3) ))`
+* [ ] If the option BARE_GLOB_QUAL is set, then a trailing set of parentheses containing no `|` or `(` characters (or `~` if it  is  special)  is taken as a set of glob qualifiers.  A glob subexpression that would normally be taken as glob qualifiers, for example `(^x)`, can be forced to be treated as part of the glob pattern by doubling the parentheses, in this case producing `((^x))`.
+* [ ] `job ... &|`, `job ... &!`
 
 
 ---

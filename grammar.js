@@ -358,7 +358,7 @@ module.exports = grammar({
       optional($._statements),
       prec(1, choice(
         field('termination', ';;'),
-        field('fallthrough', choice(';&', ';;&')),
+        field('fallthrough', choice(';&', ';;&', ';|')),
       )),
     ),
 

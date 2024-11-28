@@ -768,9 +768,10 @@ module.exports = grammar({
 
     _arithmetic_binary_expression: $ => {
       const table = [
-        [choice('+=', '-=', '*=', '/=', '%=', '**=', '<<=', '>>=', '&=', '^=', '|='), PREC.UPDATE],
+        [choice('+=', '-=', '*=', '/=', '%=', '**=', '<<=', '>>=', '&=', '^=', '|=', '&&=', '||=', '^^='), PREC.UPDATE],
         [choice('=', '=~'), PREC.ASSIGN],
         ['||', PREC.LOGICAL_OR],
+        ['^^', PREC.LOGICAL_OR],
         ['&&', PREC.LOGICAL_AND],
         ['|', PREC.BITWISE_OR],
         ['^', PREC.BITWISE_XOR],

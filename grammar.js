@@ -375,6 +375,7 @@ module.exports = grammar({
       choice(
         seq(
           'function',
+          optional(field('function_trace', '-T')),
           field('name', $.word),
           optional(seq('(', ')')),
         ),
@@ -399,6 +400,7 @@ module.exports = grammar({
       choice(
         seq(
           'function',
+          optional(field('function_trace', '-T')),
           optional(seq('(', ')')),
         ),
         '()',

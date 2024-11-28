@@ -543,14 +543,18 @@ module.exports = grammar({
 
     subscript: $ => seq(
       field('name', $.variable_name),
-      repeat1(seq(
-        '[',
-        field('index', choice($._literal, $.binary_expression, $.unary_expression, $.parenthesized_expression)),
-        optional($._concat),
-        ']',
-        optional($._concat),
-      )),
+      repeat1($._subscript),
     ),
+
+    _subscript: $ => prec.right(seq(
+      '[',
+      field('index', choice($._literal, $.binary_expression, $.unary_expression, $.parenthesized_expression)),
+      optional($._concat),
+      ']',
+      optional($._concat),
+    )),
+
+    subcript_expr: $ => $._subscript,
 
     file_redirect: $ => prec.left(seq(
       field('descriptor', optional($.file_descriptor)),
@@ -900,14 +904,7 @@ module.exports = grammar({
         alias('!', $.special_variable_name),
         alias('#', $.special_variable_name),
       ),
-      repeat(seq(
-        optional($._concat),
-        '[',
-        field('index', choice($._literal, $.binary_expression, $.unary_expression, $.parenthesized_expression)),
-        optional($._concat),
-        ']',
-        optional($._concat),
-      )),
+      repeat(seq(optional($._concat), $.subcript_expr)),
     )),
 
     string_expansion: $ => seq('$', $.string),
@@ -959,9 +956,14 @@ module.exports = grammar({
           $.variable_name,
           $.subscript,
           $._simple_variable_name,
-          $._special_variable_name,
-          $.command_substitution,
-          $.expansion,
+          seq(
+            choice(
+              $._special_variable_name,
+              $.command_substitution,
+              $.expansion,
+            ),
+            repeat($.subcript_expr),
+          ),
         ),
         optional(choice(
           $._expansion_expression,

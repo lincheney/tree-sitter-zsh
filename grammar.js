@@ -527,6 +527,7 @@ module.exports = grammar({
         )),
         $.subshell,
       ),
+      optional(/\n/),
     )),
 
     command_name: $ => $._literal,
@@ -764,6 +765,8 @@ module.exports = grammar({
       token.immediate('}'),
     ),
 
+    glob_expression: $ => token.immediate(/\((\\.|[^)])+\)/),
+
     _arithmetic_expression: $ => prec(1, choice(
       $._arithmetic_literal,
       alias($._arithmetic_unary_expression, $.unary_expression),
@@ -853,14 +856,17 @@ module.exports = grammar({
         $._primary_expression,
         alias($._special_character, $.word),
       ),
-      repeat1(seq(
-        choice($._concat, alias(/`\s*`/, '``')),
-        choice(
-          $._primary_expression,
-          alias($._special_character, $.word),
-          alias($._comment_word, $.word),
-          alias($._bare_dollar, '$'),
+      repeat1(choice(
+        seq(
+          choice($._concat, alias(/`\s*`/, '``')),
+          choice(
+            $._primary_expression,
+            alias($._special_character, $.word),
+            alias($._comment_word, $.word),
+            alias($._bare_dollar, '$'),
+          ),
         ),
+        $.glob_expression,
       )),
       optional(seq($._concat, '$')),
     )),

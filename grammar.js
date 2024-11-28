@@ -418,7 +418,8 @@ module.exports = grammar({
 
     compound_statement: $ => seq(
       '{',
-      optional($._terminated_statement),
+      // optional($._terminated_statement),
+      optional($._statement),
       token(prec(-1, '}')),
     ),
 

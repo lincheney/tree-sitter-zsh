@@ -503,19 +503,19 @@ static bool scan(Scanner *scanner, TSLexer *lexer, const bool *valid_symbols) {
         }
     }
 
+    if (valid_symbols[PARAM_FLAG_ARG_REPEAT] && !in_error_recovery(valid_symbols)) {
+        if (lexer->lookahead == scanner->param_flag_arg_delim) {
+            advance(lexer);
+            lexer->result_symbol = PARAM_FLAG_ARG_REPEAT;
+            return true;
+        }
+    }
+
     if (valid_symbols[PARAM_FLAG_ARG_END] && !in_error_recovery(valid_symbols)) {
         uint32_t delim = get_matching_param_flag_arg_delim(scanner->param_flag_arg_delim);
         if (lexer->lookahead == delim) {
             advance(lexer);
             lexer->result_symbol = PARAM_FLAG_ARG_END;
-            return true;
-        }
-    }
-
-    if (valid_symbols[PARAM_FLAG_ARG_REPEAT] && !in_error_recovery(valid_symbols)) {
-        if (lexer->lookahead == scanner->param_flag_arg_delim) {
-            advance(lexer);
-            lexer->result_symbol = PARAM_FLAG_ARG_REPEAT;
             return true;
         }
     }

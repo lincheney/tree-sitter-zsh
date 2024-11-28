@@ -937,7 +937,7 @@ module.exports = grammar({
         // ))),
       // ),
       seq(
-        optional(field('flag', $._expansion_flag)),
+        optional(field('flag', $.expansion_flag)),
         optional(field('operator', immediateLiterals(
           '#',
           // '!',
@@ -1088,23 +1088,25 @@ module.exports = grammar({
       field('operator', immediateLiterals('U', 'u', 'L', 'Q', 'E', 'P', 'A', 'K', 'a', 'k')),
     ),
 
-    _expansion_flag: $ => seq(
+    expansion_flag: $ => seq(
       '(',
       repeat(choice(
-        immediateLiterals('#', '%', '@', 'A', 'a', 'b', 'c', 'C', 'D', 'e', 'f', 'F', 'i', 'k', 'L', 'n', '-', 'o', 'O', 'P', 'q', 'Q', 't', 'u', 'U', 'v', 'V', 'w', 'W', 'X', 'z', '0', 'm', 'S', '*', 'B', 'E', 'M', 'N', 'R'),
-
-        /g:[ceo]*:/,
+        immediateLiterals('#', '%', '@', 'A', 'a', 'b', 'c', 'C', 'D', 'e', 'f', 'F', 'i', 'k', 'L', 'n', '-', 'o', 'O', 'P', 'q', 'Q', 't', 'u', 'U', 'v', 'V', 'w', 'W', 'X', 'z', '0', 'm', 'S', '*', 'B', 'E', 'M', 'N', 'R', 'p'),
 
         seq(
-          optional(token.immediate('p')),
+          token.immediate('g'),
+          token.immediate(':'),
+          repeat(immediateLiterals('c', 'e', 'o')),
+          token.immediate(':'),
+        ),
+
+        seq(
           immediateLiterals('j', 's', 'Z', '_', 'I'),
           $._param_flag_arg_start, $._param_flag_arg_content, $._param_flag_arg_end,
         ),
 
         seq(
-          optional(token.immediate('p')),
           immediateLiterals('l', 'r'),
-
           $._param_flag_arg_start, $._param_flag_arg_content, $._param_flag_arg_end,
           optional(seq(
             $._param_flag_arg_repeat, $._param_flag_arg_content, $._param_flag_arg_end,

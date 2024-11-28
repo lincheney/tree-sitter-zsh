@@ -1162,7 +1162,7 @@ module.exports = grammar({
     ),
 
     process_substitution: $ => seq(
-      choice('<(', '>('),
+      choice('<(', '>(', '=('),
       $._statements,
       ')',
     ),

@@ -102,6 +102,7 @@ module.exports = grammar({
     $._param_flag_arg_content,
     $._param_flag_arg_end,
     $._param_flag_arg_repeat,
+    $._subscript_expr,
   ],
 
   extras: $ => [
@@ -547,14 +548,14 @@ module.exports = grammar({
     ),
 
     _subscript: $ => prec.right(seq(
-      '[',
+      token.immediate('['),
       field('index', choice($._literal, $.binary_expression, $.unary_expression, $.parenthesized_expression)),
       optional($._concat),
       ']',
       optional($._concat),
     )),
 
-    subcript_expr: $ => $._subscript,
+    subscript_expr: $ => seq($._subscript_expr, $._subscript),
 
     file_redirect: $ => prec.left(seq(
       field('descriptor', optional($.file_descriptor)),
@@ -904,7 +905,7 @@ module.exports = grammar({
         alias('!', $.special_variable_name),
         alias('#', $.special_variable_name),
       ),
-      repeat(seq(optional($._concat), $.subcript_expr)),
+      repeat($.subscript_expr),
     )),
 
     string_expansion: $ => seq('$', $.string),
@@ -962,7 +963,7 @@ module.exports = grammar({
               $.command_substitution,
               $.expansion,
             ),
-            repeat($.subcript_expr),
+            repeat($.subscript_expr),
           ),
         ),
         optional(choice(

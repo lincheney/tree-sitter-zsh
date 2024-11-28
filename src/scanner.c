@@ -40,6 +40,7 @@ enum TokenType {
     PARAM_FLAG_ARG_CONTENT,
     PARAM_FLAG_ARG_END,
     PARAM_FLAG_ARG_REPEAT,
+    SUBSCRIPT_EXPR,
 };
 
 typedef Array(char) String;
@@ -370,6 +371,13 @@ static bool scan_heredoc_content(Scanner *scanner, TSLexer *lexer, enum TokenTyp
 }
 
 static bool scan(Scanner *scanner, TSLexer *lexer, const bool *valid_symbols) {
+    if (valid_symbols[SUBSCRIPT_EXPR] && !in_error_recovery(valid_symbols)) {
+        if (lexer->lookahead == '[') {
+            lexer->result_symbol = SUBSCRIPT_EXPR;
+            return true;
+        }
+    }
+
     if (valid_symbols[CONCAT] && !in_error_recovery(valid_symbols)) {
         if (!(lexer->lookahead == 0 || iswspace(lexer->lookahead) || lexer->lookahead == '>' ||
               lexer->lookahead == '<' || lexer->lookahead == ')' || lexer->lookahead == '(' ||

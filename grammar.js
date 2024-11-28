@@ -295,8 +295,13 @@ module.exports = grammar({
     _c_word: $ => alias(/[a-zA-Z_][a-zA-Z0-9_]*/, $.word),
 
     while_statement: $ => seq(
-      choice('while', 'until'),
-      field('condition', $._terminated_statement),
+      choice(
+        seq(
+          choice('while', 'until'),
+          field('condition', $._terminated_statement),
+        ),
+        'repeat',
+      ),
       field('body', $.do_group),
     ),
 

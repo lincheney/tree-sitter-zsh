@@ -162,6 +162,7 @@ module.exports = grammar({
       $.list,
       $.compound_statement,
       $.function_definition,
+      $.try_always_statement,
     ),
 
     _statement_not_pipeline: $ => prec(1, choice(
@@ -182,6 +183,7 @@ module.exports = grammar({
       $.compound_statement,
       $.function_definition,
       $.subshell,
+      $.try_always_statement,
     )),
 
     redirected_statement: $ => prec.dynamic(-1, prec.right(-1, choice(
@@ -428,6 +430,12 @@ module.exports = grammar({
       '(',
       $._statements,
       ')',
+    ),
+
+    try_always_statement: $ => seq(
+      $.compound_statement,
+      'always',
+      $.compound_statement,
     ),
 
     pipeline: $ => prec.right(seq(

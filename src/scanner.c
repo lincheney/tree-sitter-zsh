@@ -36,6 +36,10 @@ enum TokenType {
     OPENING_PAREN,
     ESAC,
     ERROR_RECOVERY,
+    PARAM_FLAG_ARG_START,
+    PARAM_FLAG_ARG_CONTENT,
+    PARAM_FLAG_ARG_END,
+    PARAM_FLAG_ARG_REPEAT,
 };
 
 typedef Array(char) String;
@@ -62,6 +66,7 @@ typedef struct {
     bool ext_was_in_double_quote;
     bool ext_saw_outside_quote;
     Array(Heredoc) heredocs;
+    uint32_t param_flag_arg_delim;
 } Scanner;
 
 static inline void advance(TSLexer *lexer) { lexer->advance(lexer, false); }
@@ -115,6 +120,10 @@ static unsigned serialize(Scanner *scanner, char *buffer) {
             size += heredoc->delimiter.size;
         }
     }
+
+    memcpy(&buffer[size], &scanner->param_flag_arg_delim, sizeof(uint32_t));
+    size += sizeof(uint32_t);
+
     return size;
 }
 
@@ -150,6 +159,10 @@ static void deserialize(Scanner *scanner, const char *buffer, unsigned length) {
                 size += heredoc->delimiter.size;
             }
         }
+
+        memcpy(&scanner->param_flag_arg_delim, &buffer[size], sizeof(uint32_t));
+        size += sizeof(uint32_t);
+
         assert(size == length);
     }
 }
@@ -190,6 +203,16 @@ static bool advance_word(TSLexer *lexer, String *unquoted_word) {
     }
 
     return !empty;
+}
+
+static inline uint32_t get_matching_param_flag_arg_delim(uint32_t delim) {
+    switch (delim) {
+        case '{': return '}';
+        case '(': return ')';
+        case '[': return ']';
+        case '<': return '>';
+        default:  return delim;
+    }
 }
 
 static inline bool scan_bare_dollar(TSLexer *lexer) {
@@ -458,6 +481,43 @@ static bool scan(Scanner *scanner, TSLexer *lexer, const bool *valid_symbols) {
 
     if (valid_symbols[HEREDOC_START] && !in_error_recovery(valid_symbols) && scanner->heredocs.size > 0) {
         return scan_heredoc_start(array_back(&scanner->heredocs), lexer);
+    }
+
+    if (valid_symbols[PARAM_FLAG_ARG_START] && !in_error_recovery(valid_symbols)) {
+        if (lexer->lookahead != '\n') {
+            scanner->param_flag_arg_delim = lexer->lookahead;
+            advance(lexer);
+            lexer->result_symbol = PARAM_FLAG_ARG_START;
+            return true;
+        }
+    }
+
+    if (valid_symbols[PARAM_FLAG_ARG_CONTENT] && !in_error_recovery(valid_symbols)) {
+        if (lexer->lookahead != '\n') {
+            uint32_t delim = get_matching_param_flag_arg_delim(scanner->param_flag_arg_delim);
+            while (!lexer->eof(lexer) && lexer->lookahead != '\n' && lexer->lookahead != delim) {
+                advance(lexer);
+            }
+            lexer->result_symbol = PARAM_FLAG_ARG_CONTENT;
+            return true;
+        }
+    }
+
+    if (valid_symbols[PARAM_FLAG_ARG_END] && !in_error_recovery(valid_symbols)) {
+        uint32_t delim = get_matching_param_flag_arg_delim(scanner->param_flag_arg_delim);
+        if (lexer->lookahead == delim) {
+            advance(lexer);
+            lexer->result_symbol = PARAM_FLAG_ARG_END;
+            return true;
+        }
+    }
+
+    if (valid_symbols[PARAM_FLAG_ARG_REPEAT] && !in_error_recovery(valid_symbols)) {
+        if (lexer->lookahead == scanner->param_flag_arg_delim) {
+            advance(lexer);
+            lexer->result_symbol = PARAM_FLAG_ARG_REPEAT;
+            return true;
+        }
     }
 
     if (valid_symbols[TEST_OPERATOR] && !valid_symbols[EXPANSION_WORD]) {

@@ -98,6 +98,10 @@ module.exports = grammar({
     '(',
     'esac',
     $.__error_recovery,
+    $._param_flag_arg_start,
+    $._param_flag_arg_content,
+    $._param_flag_arg_end,
+    $._param_flag_arg_repeat,
   ],
 
   extras: $ => [
@@ -1076,7 +1080,7 @@ module.exports = grammar({
       field('operator', immediateLiterals('U', 'u', 'L', 'Q', 'E', 'P', 'A', 'K', 'a', 'k')),
     ),
 
-    _expansion_flag: _ => seq(
+    _expansion_flag: $ => seq(
       '(',
       repeat(choice(
         immediateLiterals('#', '%', '@', 'A', 'a', 'b', 'c', 'C', 'D', 'e', 'f', 'F', 'i', 'k', 'L', 'n', '-', 'o', 'O', 'P', 'q', 'Q', 't', 'u', 'U', 'v', 'V', 'w', 'W', 'X', 'z', '0', 'm', 'S', '*', 'B', 'E', 'M', 'N', 'R'),
@@ -1086,28 +1090,20 @@ module.exports = grammar({
         seq(
           optional(token.immediate('p')),
           immediateLiterals('j', 's', 'Z', '_', 'I'),
-          choice(
-            ...(['::', '//', '[]', '{}', '()', '<>'].map(c => seq(
-              seq(token.immediate(c[0]), token.immediate(new RegExp('[^'+c[1]+']*')), token.immediate(c[1])),
-            ))),
-          ),
+          $._param_flag_arg_start, $._param_flag_arg_content, $._param_flag_arg_end,
         ),
+
         seq(
           optional(token.immediate('p')),
           immediateLiterals('l', 'r'),
-          choice(
-            ...(['::', '//', '[]', '{}', '()', '<>'].map(c => seq(
-              seq(
-                token.immediate(c[0]), token.immediate(new RegExp('[^'+c[1]+']*')), token.immediate(c[1]),
-                optional(seq(
-                  token.immediate(c[0]), token.immediate(new RegExp('[^'+c[1]+']*')), token.immediate(c[1]),
-                  optional(seq(
-                    token.immediate(c[0]), token.immediate(new RegExp('[^'+c[1]+']*')), token.immediate(c[1])
-                  )),
-                )),
-              ),
-            ))),
-          ),
+
+          $._param_flag_arg_start, $._param_flag_arg_content, $._param_flag_arg_end,
+          optional(seq(
+            $._param_flag_arg_repeat, $._param_flag_arg_content, $._param_flag_arg_end,
+            optional(seq(
+              $._param_flag_arg_repeat, $._param_flag_arg_content, $._param_flag_arg_end,
+            )),
+          )),
         ),
 
       )),

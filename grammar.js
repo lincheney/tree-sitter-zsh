@@ -1057,6 +1057,7 @@ module.exports = grammar({
             alias($._expansion_word, $.word),
             alias($._concatenation_in_expansion, $.concatenation),
             $.array,
+            "'",
           ),
           field('operator', optional('/')),
         )),

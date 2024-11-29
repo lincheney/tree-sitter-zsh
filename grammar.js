@@ -1159,6 +1159,7 @@ module.exports = grammar({
         $.parenthesized_expression,
         $.command_substitution,
         alias($._expansion_max_length_binary_expression, $.binary_expression),
+        $._arithmetic_expression,
         /\n/,
       )),
       optional(seq(
@@ -1172,6 +1173,7 @@ module.exports = grammar({
           $.parenthesized_expression,
           $.command_substitution,
           alias($._expansion_max_length_binary_expression, $.binary_expression),
+          $._arithmetic_expression,
           /\n/,
         )),
       )),

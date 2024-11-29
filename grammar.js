@@ -1110,13 +1110,28 @@ module.exports = grammar({
         field('operator', '/'),
         optional(seq(
           choice(
-            $._primary_expression,
+
+            // copied from string_content
+            seq(
+              repeat1(seq(
+                choice(
+                  token(prec(-1, /([^"`$\\\r\n}/]|\\(.|\r?\n))+/)),
+                  $.expansion,
+                  $.simple_expansion,
+                  $.command_substitution,
+                  $.arithmetic_expansion,
+                ),
+                optional($._concat),
+              )),
+              optional('$'),
+            ),
+
+            // $._primary_expression,
             alias(prec(-2, repeat1($._special_character)), $.word),
             seq($.command_substitution, alias($._expansion_word, $.word)),
             alias($._expansion_word, $.word),
-            alias($._concatenation_in_expansion, $.concatenation),
+            // alias($._concatenation_in_expansion, $.concatenation),
             $.array,
-            "'",
           ),
           field('operator', optional('/')),
         )),

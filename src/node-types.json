@@ -1334,11 +1334,19 @@
           "named": true
         },
         {
+          "type": "function_expression",
+          "named": true
+        },
+        {
           "type": "number",
           "named": true
         },
         {
           "type": "parenthesized_expression",
+          "named": true
+        },
+        {
+          "type": "postfix_expression",
           "named": true
         },
         {
@@ -1367,6 +1375,14 @@
         },
         {
           "type": "subscript_expr",
+          "named": true
+        },
+        {
+          "type": "ternary_expression",
+          "named": true
+        },
+        {
+          "type": "unary_expression",
           "named": true
         },
         {

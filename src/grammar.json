@@ -3041,6 +3041,13 @@
                 {
                   "type": "SYMBOL",
                   "name": "parenthesized_expression"
+                },
+                {
+                  "type": "TOKEN",
+                  "content": {
+                    "type": "PATTERN",
+                    "value": "([^]\"`$\\\\\\r\\n]|\\\\(.|\\r?\\n))+"
+                  }
                 }
               ]
             }
@@ -6844,6 +6851,10 @@
                   "value": "binary_expression"
                 },
                 {
+                  "type": "SYMBOL",
+                  "name": "_arithmetic_expression"
+                },
+                {
                   "type": "PATTERN",
                   "value": "\\n"
                 }
@@ -6918,6 +6929,10 @@
                           },
                           "named": true,
                           "value": "binary_expression"
+                        },
+                        {
+                          "type": "SYMBOL",
+                          "name": "_arithmetic_expression"
                         },
                         {
                           "type": "PATTERN",

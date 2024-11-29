@@ -7,21 +7,34 @@
 * [x] ```Any character, or the matching pairs `(...)', `{...}', `[...]', or `<...>', may be used in place of a colon as delimiters```
 * [x] `case word in [ [(] pattern [ | pattern ] ... ) list (;;|;&|;|) ] ... esac`
 * [x] `repeat word do list done`
-* [ ] `{ try-list } always { always-list }`
+* [x] `{ try-list } always { always-list }`
 * [x] `function [ -T ] word ... [ () ] [ term ] { list }`
+* [ ] `for a b c in ...`
 * [ ] ALTERNATE FORMS FOR COMPLEX COMMANDS
+    * [x] `if list { list } [ elif list { list } ] ... [ else { list } ]`
+    * [ ] `if list sublist`
+    * [ ] `for name ... ( word ... ) sublist`
+    * [ ] `for name ... [ in word ... ] term sublist`
+    * [ ] `for (( [expr1] ; [expr2] ; [expr3] )) sublist`
+    * [x] `foreach name ... ( word ... ) list end`
+    * [x] `while list { list }`
+    * [x] `until list { list }`
+    * [ ] `repeat word sublist`
+    * [x] `case word { [ [(] pattern [ | pattern ] ... ) list (;;|;&|;|) ] ... }`
+    * [ ] `select name [ in word ... term ] sublist`
+    * [ ] `function word ... [ () ] [ term ] sublist`
 * [x] `>| word`, `>! word`, `>>| word`, `>>! word` `>&| word`, `>&! word`, `&>| word`, `&>! word`, `>>&| word`, `>>&! word`, `&>>| word`, `&>>! word`,
 * [x] `^^` logical XOR, `^^=`, `||=`, `&&=`
 * [x] `=(...)`
 * [x] `${var[1][2]}`
 * [ ] `${var[2,4][2]}`
-* [ ] Glob Operators
+* [x] Glob Operators
 * [ ] Subscript Flags
 * [x] `$path[2]`
 * [x] `{ ... }` does not require semicolon
-* [ ] `"${__stderr//'/'\''}"`
+* [x] `"${__stderr//'/'\''}"`
 * [x] `${${words[@]:-1}[(r)-p]}`
-* [ ] mathematical functions `(( int(height / 3) ))`
+* [x] mathematical functions `(( int(height / 3) ))`
 * [ ] If the option BARE_GLOB_QUAL is set, then a trailing set of parentheses containing no `|` or `(` characters (or `~` if it  is  special)  is taken as a set of glob qualifiers.  A glob subexpression that would normally be taken as glob qualifiers, for example `(^x)`, can be forced to be treated as part of the glob pattern by doubling the parentheses, in this case producing `((^x))`.
 * [ ] `job ... &|`, `job ... &!`
 

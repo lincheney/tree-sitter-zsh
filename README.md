@@ -9,7 +9,7 @@
 * [x] `repeat word do list done`
 * [x] `{ try-list } always { always-list }`
 * [x] `function [ -T ] word ... [ () ] [ term ] { list }`
-* [ ] `for a b c in ...`
+* [x] `for a b c in ...`
 * [ ] ALTERNATE FORMS FOR COMPLEX COMMANDS
     * [x] `if list { list } [ elif list { list } ] ... [ else { list } ]`
     * [ ] `if list sublist`

@@ -1074,7 +1074,7 @@ module.exports = grammar({
 
     _expansion_expression: $ => prec(1, seq(
       field('operator', immediateLiterals('=', ':=', '-', ':-', '+', ':+', '?', ':?',
-        '::=', ':|', ':*', '^', '^^',
+        '::=', ':|', ':*', ':^', ':^^',
       )),
       optional(seq(
         choice(

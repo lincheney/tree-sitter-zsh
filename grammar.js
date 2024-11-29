@@ -621,7 +621,9 @@ module.exports = grammar({
 
     _subscript: $ => prec.right(seq(
       token.immediate('['),
-      field('index', choice($._literal, $.binary_expression, $.unary_expression, $.parenthesized_expression)),
+      field('index', choice($._literal, $.binary_expression, $.unary_expression, $.parenthesized_expression,
+        token(/([^]"`$\\\r\n]|\\(.|\r?\n))+/),
+      )),
       optional($._concat),
       ']',
       optional($._concat),

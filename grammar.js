@@ -1033,7 +1033,7 @@ module.exports = grammar({
           // token.immediate('*'),
         // ))),
       // ),
-      prec(2, seq(
+      seq(
         optional(field('flag', $.expansion_flag)),
         optional(field('operator', immediateLiterals(
           '#',
@@ -1070,7 +1070,7 @@ module.exports = grammar({
             // alias($._external_expansion_sym_equal, '='),
           // ),
         // )),
-      )),
+      ),
 
       seq(
         optional(field('flag', $.expansion_flag)),
@@ -1080,31 +1080,8 @@ module.exports = grammar({
           '=',
           '^', '^^', '==', '~', '~~',
         ))),
-        repeat($.subscript_expr),
-        choice(
-          $._expansion_expression,
-          $._expansion_regex,
-          $._expansion_regex_replacement,
-          $._expansion_regex_removal,
-          $._expansion_max_length,
-          $._expansion_operator,
-        ),
+        $._expansion_expression,
       ),
-      seq(
-        optional(field('flag', $.expansion_flag)),
-        field('operator', immediateLiterals(
-          '#',
-          // '!',
-          '=',
-          '^', '^^', '==', '~', '~~',
-        )),
-        repeat($.subscript_expr),
-      ),
-      seq(
-        field('flag', $.expansion_flag),
-        repeat($.subscript_expr),
-      ),
-      repeat1($.subscript_expr),
 
     ),
 

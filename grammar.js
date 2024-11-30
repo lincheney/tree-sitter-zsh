@@ -1060,7 +1060,7 @@ module.exports = grammar({
           $._expansion_regex_replacement,
           $._expansion_regex_removal,
           $._expansion_max_length,
-          // $._expansion_operator,
+          $._expansion_operator,
         )),
         // repeat(field(
           // 'operator',
@@ -1087,7 +1087,7 @@ module.exports = grammar({
           $._expansion_regex_replacement,
           $._expansion_regex_removal,
           $._expansion_max_length,
-          // $._expansion_operator,
+          $._expansion_operator,
         ),
       ),
       seq(

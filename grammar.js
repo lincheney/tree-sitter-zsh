@@ -52,6 +52,7 @@ module.exports = grammar({
     [$.redirected_statement, $.command_substitution],
     [$.function_definition, $.command_name],
     [$.pipeline],
+    [$.simple_expansion, $._expansion_regex],
   ],
 
   inline: $ => [
@@ -1032,7 +1033,7 @@ module.exports = grammar({
           // token.immediate('*'),
         // ))),
       // ),
-      seq(
+      prec(2, seq(
         optional(field('flag', $.expansion_flag)),
         optional(field('operator', immediateLiterals(
           '#',
@@ -1069,7 +1070,42 @@ module.exports = grammar({
             // alias($._external_expansion_sym_equal, '='),
           // ),
         // )),
+      )),
+
+      seq(
+        optional(field('flag', $.expansion_flag)),
+        optional(field('operator', immediateLiterals(
+          '#',
+          // '!',
+          '=',
+          '^', '^^', '==', '~', '~~',
+        ))),
+        repeat($.subscript_expr),
+        choice(
+          $._expansion_expression,
+          $._expansion_regex,
+          $._expansion_regex_replacement,
+          $._expansion_regex_removal,
+          $._expansion_max_length,
+          $._expansion_operator,
+        ),
       ),
+      seq(
+        optional(field('flag', $.expansion_flag)),
+        field('operator', immediateLiterals(
+          '#',
+          // '!',
+          '=',
+          '^', '^^', '==', '~', '~~',
+        )),
+        repeat($.subscript_expr),
+      ),
+      seq(
+        field('flag', $.expansion_flag),
+        repeat($.subscript_expr),
+      ),
+      repeat1($.subscript_expr),
+
     ),
 
     _expansion_expression: $ => prec(1, seq(

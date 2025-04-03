@@ -31,6 +31,7 @@
 * [x] Glob Operators
 * [ ] Subscript Flags
 * [x] `$path[2]`
+* [x] `$#path`
 * [x] `{ ... }` does not require semicolon
 * [x] `"${__stderr//'/'\''}"`
 * [x] `${${words[@]:-1}[(r)-p]}`

@@ -986,7 +986,16 @@ module.exports = grammar({
     simple_expansion: $ => prec.right(seq(
       '$',
       choice(
-        $._simple_variable_name,
+        seq(
+          optional(field('operator', immediateLiterals(
+            '#',
+            // '!',
+            '=',
+            '^', '^^', '==', '~', '~~',
+            '+',
+          ))),
+          $._simple_variable_name,
+        ),
         $._multiline_variable_name,
         $._special_variable_name,
         $.variable_name,

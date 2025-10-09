@@ -1057,6 +1057,14 @@ module.exports = grammar({
           seq(
             choice(
               $._special_variable_name,
+              seq(
+                token.immediate('"'),
+                choice(
+                  $.command_substitution,
+                  $.expansion,
+                ),
+                token.immediate('"'),
+              ),
               $.command_substitution,
               $.expansion,
             ),

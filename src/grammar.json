@@ -6268,6 +6268,38 @@
                           "name": "_special_variable_name"
                         },
                         {
+                          "type": "SEQ",
+                          "members": [
+                            {
+                              "type": "IMMEDIATE_TOKEN",
+                              "content": {
+                                "type": "STRING",
+                                "value": "\""
+                              }
+                            },
+                            {
+                              "type": "CHOICE",
+                              "members": [
+                                {
+                                  "type": "SYMBOL",
+                                  "name": "command_substitution"
+                                },
+                                {
+                                  "type": "SYMBOL",
+                                  "name": "expansion"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "IMMEDIATE_TOKEN",
+                              "content": {
+                                "type": "STRING",
+                                "value": "\""
+                              }
+                            }
+                          ]
+                        },
+                        {
                           "type": "SYMBOL",
                           "name": "command_substitution"
                         },

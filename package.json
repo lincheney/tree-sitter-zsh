@@ -1,6 +1,6 @@
 {
   "name": "tree-sitter-bash",
-  "version": "0.23.3",
+  "version": "0.25.0",
   "description": "Bash grammar for tree-sitter",
   "repository": "https://github.com/tree-sitter/tree-sitter-bash",
   "license": "MIT",
@@ -39,11 +39,11 @@
   "devDependencies": {
     "eslint": "^9.12.0",
     "eslint-config-treesitter": "^1.0.2",
-    "tree-sitter-cli": "^0.24.3",
+    "tree-sitter-cli": "^0.25.6",
     "prebuildify": "^6.0.1"
   },
   "peerDependencies": {
-    "tree-sitter": "^0.21.1"
+    "tree-sitter": "^0.25.0"
   },
   "peerDependenciesMeta": {
     "tree-sitter": {

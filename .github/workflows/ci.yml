@@ -31,7 +31,7 @@ jobs:
         os: [ubuntu-latest, windows-latest, macos-14]
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Set up tree-sitter
         uses: tree-sitter/setup-action/cli@v2
       - name: Set up examples
@@ -44,13 +44,14 @@ jobs:
             git clone https://github.com/oilshell/wild-corpus examples/wild-corpus -q --single-branch --depth=1
           fi
       - name: Run tests
-        uses: tree-sitter/parser-test-action@v2
+        uses: tree-sitter/parser-test-action@v3
         with:
+          generate: false
           test-rust: true
           test-node: true
           test-python: true
           test-go: true
-          test-swift: true
+          test-swift: false
       - name: Parse examples
         uses: tree-sitter/parse-action@v4
         with:

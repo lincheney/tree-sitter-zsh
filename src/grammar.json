@@ -2581,15 +2581,6 @@
                     {
                       "type": "SYMBOL",
                       "name": "_expression"
-                    },
-                    {
-                      "type": "ALIAS",
-                      "content": {
-                        "type": "SYMBOL",
-                        "name": "_test_command_binary_expression"
-                      },
-                      "named": true,
-                      "value": "binary_expression"
                     }
                   ]
                 },
@@ -4171,8 +4162,17 @@
                 "type": "FIELD",
                 "name": "operator",
                 "content": {
-                  "type": "STRING",
-                  "value": "=~"
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "STRING",
+                      "value": "="
+                    },
+                    {
+                      "type": "STRING",
+                      "value": "=~"
+                    }
+                  ]
                 }
               },
               {
@@ -6678,8 +6678,17 @@
               {
                 "type": "ALIAS",
                 "content": {
-                  "type": "STRING",
-                  "value": ")"
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "STRING",
+                      "value": ")"
+                    },
+                    {
+                      "type": "STRING",
+                      "value": "]"
+                    }
+                  ]
                 },
                 "named": true,
                 "value": "regex"
@@ -6920,10 +6929,6 @@
                               },
                               "named": true,
                               "value": "word"
-                            },
-                            {
-                              "type": "SYMBOL",
-                              "name": "array"
                             }
                           ]
                         },

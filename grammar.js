@@ -535,7 +535,7 @@ module.exports = grammar({
           '[[',
           choice(
             $._expression,
-            alias($._test_command_binary_expression, $.binary_expression),
+            // alias($._test_command_binary_expression, $.binary_expression),
           ),
           ']]',
         ),
@@ -745,7 +745,7 @@ module.exports = grammar({
         })),
         prec(PREC.ASSIGN, seq(
           field('left', $._expression),
-          field('operator', '=~'),
+          field('operator', choice('=', '=~')),
           field('right', alias($._regex_no_space, $.regex)),
         )),
         prec(PREC.EQUALITY, seq(
@@ -1126,7 +1126,7 @@ module.exports = grammar({
       field('operator', choice('#', alias($._immediate_double_hash, '##'), ':#', '%', '%%')),
       repeat(choice(
         $.regex,
-        alias(')', $.regex),
+        alias(choice(')', ']'), $.regex),
         $.string,
         $.raw_string,
         alias(/\s+/, $.regex),
@@ -1167,7 +1167,7 @@ module.exports = grammar({
             seq($.command_substitution, alias($._expansion_word, $.word)),
             alias($._expansion_word, $.word),
             // alias($._concatenation_in_expansion, $.concatenation),
-            $.array,
+            // $.array,
           ),
           field('operator', optional('/')),
         )),

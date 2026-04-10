@@ -1164,7 +1164,7 @@ expansion_word:
             if (lexer->lookahead == '(' && !(advanced_once || advance_once_space)) {
                 lexer->mark_end(lexer);
                 advance(lexer);
-                while (lexer->lookahead != ')' && !lexer->eof(lexer)) {
+                while (lexer->lookahead != ')' && lexer->lookahead != '}' && !lexer->eof(lexer)) {
                     // if we find a $( or ${ assume this is valid and is
                     // a garbage concatenation of some weird word + an
                     // expansion
